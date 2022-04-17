@@ -35,8 +35,6 @@ public class RetryAspect {
     @Autowired
     @Qualifier("localRetryStrategies")
     private RetryStrategy retryStrategy;
-    @Autowired(required = false)
-    private TransactionTemplate transactionTemplate;
 
     @Around("@annotation(com.x.retry.client.core.annotation.Retryable)")
     public Object around(ProceedingJoinPoint point) throws Throwable {
