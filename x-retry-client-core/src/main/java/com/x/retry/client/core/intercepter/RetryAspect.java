@@ -72,7 +72,7 @@ public class RetryAspect {
 
     private void doHandlerRetry(ProceedingJoinPoint point, String traceId, Retryable retryable, String executorClassName, String methodEntrance, Throwable throwable) {
 
-        if (!RetrySiteSnapshot.isMethodEntrance(methodEntrance)) {
+        if (!RetrySiteSnapshot.isMethodEntrance(methodEntrance) || RetrySiteSnapshot.isRunning()) {
             return;
         }
 
@@ -95,7 +95,7 @@ public class RetryAspect {
 
     private void openRetry(ProceedingJoinPoint point, String traceId, Retryable retryable, String executorClassName,  Throwable throwable) {
         try {
-            if (Objects.isNull(throwable) || RetrySiteSnapshot.isRunning()) {
+            if (Objects.isNull(throwable)) {
                 return;
             }
 
