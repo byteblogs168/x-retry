@@ -25,7 +25,7 @@ https://www.byteblogs.com/chat
 <dependency>
     <groupId>com.x.retry</groupId>
     <artifactId>x-retry-client-starter</artifactId>
-    <version>0.0.2.0</version>
+    <version>0.0.4.0</version>
 </dependency>
 ```
 
@@ -291,3 +291,29 @@ http://localhost:8080
   - 管理员: 管理所有的 组谦虚
 - 权限: 需要管理的组
 ![user_add.png](doc/images/user_add.png)
+  
+### 系统剖析
+#### 客户端与服务端数据交互图
+![user_add.png](doc/images/client_server_data_flow.jpg)
+
+> 客户端核心能力
+- 负责发现异常，标记事故现场
+- 根据不同阶段进行本地重试和远程重试
+- 失败上报和执行服务端下发的重试指令
+- 避免服务间调用产生重试放大风险
+- 重试流量管控
+  - 单机多注解循环引用问题
+  - 标记重试流量
+  - 调用链超时控制(Deadline Request)
+  - 特殊的 status code 限制链路重试
+
+> 服务端核心能力
+- 收集上报信息，统一预警
+- 通过组协调器为不同的POD分配需要调度的Group信息
+- 管理死信队列和重试数据状态以及触发时间
+- 支持配置中心可视化
+
+#### 系统架构图
+![user_add.png](doc/images/系统架构图-v1.0.jpg)
+
+
