@@ -353,11 +353,25 @@ http://localhost:8080
     - 本地重试: 当发生异常时候, 若注解上的配置`RetryType.ONLY_LOCAL`或者`RetryType.LOCAL_REMOTE`, 则会触发本地内存重试
     - 远程重试: 本地重试没有成功，若注解上的配置`RetryType.ONLY_REMOTE`或者`RetryType.LOCAL_REMOTE`, 则会触发上报服务端重试
 
-- 执行器
-  - 重试组件: 对guava retry 的深度封装
-  - 重试执行器
-    - 类反射执行器: 即重试执行原方法
-    - 自定义方法执行器: 用户通过实现`RetryMethod`接口, 即刻实现自定义重试, 那么发生重试时直接重试自定义方法执行器
+  - 执行器
+    - 重试组件: 对guava retry 的深度封装
+    - 重试执行器
+       - 类反射执行器: 即重试执行原方法
+       - 自定义方法执行器: 用户通过实现`RetryMethod`接口, 即可实现自定义重试, 发生重试时直接重试自定义方法执行器
+- 重试流量管控
+  - 单机多注解循环引用问题
+    标记重试入口,触发重试时只从标记的重试入口进入
+    ![单机多注解循环引用问题.jpg](doc/images/单机多注解循环引用问题.jpg)
+    
+  - 标记重试流量
+    ![重试流量标识.jpg](doc/images/重试流量标识.jpg)
+    
+  - 调用链超时控制(Deadline Request)
+    ![DDL.jpg](doc/images/DDL.jpg)
+    
+  - 特殊的 status code 限制链路重试
+    ![重试特殊的statuscode.jpg](doc/images/重试特殊的statuscode.jpg)
+  
 
 
 
